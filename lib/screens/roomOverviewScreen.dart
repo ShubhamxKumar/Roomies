@@ -14,6 +14,7 @@ class RoomOverviewScreen extends StatefulWidget {
 }
 
 class _RoomOverviewScreenState extends State<RoomOverviewScreen> {
+  var refresh = 0;
   var count = 0;
   @override
   void didChangeDependencies() {
@@ -56,6 +57,23 @@ class _RoomOverviewScreenState extends State<RoomOverviewScreen> {
             ),
           ),
           actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 0,
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.refresh,
+                  color: Colors.white,
+                  size: 25,
+                ),
+                onPressed: () {
+                  setState(() {
+                    refresh = 0;
+                  });
+                },
+              ),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 10,

@@ -82,7 +82,7 @@ class _RoomScreenState extends State<RoomScreen> {
                             return MessageBubble(
                               message: chatsnapshot.data.documents[index]
                                   ['text'],
-                              username: userInfo.getusername,
+                              username: chatsnapshot.data.documents[index]['username'],
                               key: ValueKey(chatsnapshot
                                   .data.documents[index].documentID),
                               isMe: chatsnapshot.data.documents[index]

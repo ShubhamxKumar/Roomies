@@ -34,20 +34,30 @@ class MessageBubble extends StatelessWidget {
                     bottomRight: Radius.circular(10),
                   ),
           ),
-          constraints:
-              BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.4),
+          width: MediaQuery.of(context).size.width * 0.5,
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Row(
             children: <Widget>[
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(username),
                   Text(
-                    message,
+                    '~' + username,
                     style: TextStyle(
+                      fontFamily: 'primary',
                       color: Colors.white,
-                      fontFamily: 'secondary',
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Text(
+                      message,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'secondary',
+                      ),
+                      softWrap: true,
                     ),
                   ),
                 ],

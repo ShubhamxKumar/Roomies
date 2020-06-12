@@ -27,7 +27,34 @@ class _NewMessageState extends State<NewMessage> {
             child: TextField(
               controller: _textController,
               decoration: InputDecoration(
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                filled: true,
                 labelText: 'New Message',
+                labelStyle: TextStyle(
+                  fontFamily: 'secondary',
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black.withOpacity(0.7),
+                  fontSize: 15,
+                ),
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.horizontal(
+                    left: Radius.circular(40),
+                    right: Radius.circular(40),
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.horizontal(
+                    left: Radius.circular(40),
+                    right: Radius.circular(40),
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                  ),
+                ),
               ),
               onChanged: (value) {
                 // this function will fire with every keyStroke.
@@ -37,13 +64,17 @@ class _NewMessageState extends State<NewMessage> {
               },
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.send),
+          SizedBox(width:10),
+          FloatingActionButton(
             onPressed: _enteredMessage.isEmpty
                 ? null
                 : () async {
                     final user = await FirebaseAuth.instance.currentUser();
-                    Firestore.instance.collection('Rooms').document(widget.roomid).collection('chats').add(
+                    Firestore.instance
+                        .collection('Rooms')
+                        .document(widget.roomid)
+                        .collection('chats')
+                        .add(
                       {
                         'text': _enteredMessage,
                         'created': Timestamp.now(),
@@ -61,6 +92,11 @@ class _NewMessageState extends State<NewMessage> {
                       },
                     );
                   },
+            backgroundColor: Colors.white,
+            child: Icon(
+              Icons.send,
+              color: Colors.black,
+            ),
           ),
         ],
       ),
