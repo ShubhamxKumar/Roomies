@@ -1,4 +1,5 @@
 import 'package:Roomies/Providers/userProfileProvider.dart';
+import 'package:Roomies/screens/newRoomScreen.dart';
 import 'package:Roomies/screens/settingScreen.dart';
 import 'package:Roomies/widgets/noRooms.dart';
 import 'package:Roomies/widgets/roomTile.dart';
@@ -96,7 +97,7 @@ class _RoomOverviewScreenState extends State<RoomOverviewScreen> {
             ),
           ],
         ),
-        body: currentUserRooms.isEmpty
+        body: currentUserRooms == null || currentUserRooms.isEmpty
             ? NoRooms()
             : ListView(
                 children: currentUserRooms.map((element) {
@@ -106,9 +107,15 @@ class _RoomOverviewScreenState extends State<RoomOverviewScreen> {
                 }).toList(),
               ),
         floatingActionButton: FloatingActionButton(
-          
           backgroundColor: Color(0xff000033),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => NewRoomScreen(),
+              ),
+            );
+          },
           child: Icon(
             Icons.add,
             color: Colors.white,

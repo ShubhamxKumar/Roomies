@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 var usedUsernames = [];
 var currentUserRooms = [];
 var userId;
+var currentuserUsername ;
+var currentuserName ;
+var currentuserEmail ;
 
 Future<void> getUsedUsernames() async {
   try {
@@ -29,6 +32,9 @@ Future<void> getUserRooms() async {
           .get()
           .then((docSnapshot) {
         currentUserRooms = docSnapshot.data['rooms'];
+        currentuserEmail = docSnapshot.data['email'];
+        currentUserRooms = docSnapshot.data['username'];
+        currentuserName = docSnapshot.data['name'];
       });
     });
   } catch (err) {
@@ -37,4 +43,6 @@ Future<void> getUserRooms() async {
   print(currentUserRooms);
 }
 
-Future<void> createRoom() {}
+Future<void> createRoom() {
+  
+}

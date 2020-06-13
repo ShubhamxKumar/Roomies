@@ -1,4 +1,5 @@
 import 'package:Roomies/Providers/userProfileProvider.dart';
+import 'package:Roomies/getDataFunctions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,21 @@ class NewMessage extends StatefulWidget {
 class _NewMessageState extends State<NewMessage> {
   String _enteredMessage = '';
   var _textController = TextEditingController();
+  var count = 0;
+
+  void didChangeDependencies() {
+    if (count < 1) {
+      Provider.of<UserProfileProvider>(context).getUserInfo();
+      getUserRooms();
+      count++;
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     var userInfo = Provider.of<UserProfileProvider>(context);
+    print(userInfo.getusername);
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.all(10),

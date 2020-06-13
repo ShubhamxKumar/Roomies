@@ -1,4 +1,5 @@
 import 'package:Roomies/Providers/userProfileProvider.dart';
+import 'package:Roomies/getDataFunctions.dart';
 import 'package:Roomies/widgets/messBubble.dart';
 import 'package:Roomies/widgets/newMessage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -48,7 +49,7 @@ class _RoomScreenState extends State<RoomScreen> {
               ),
             ),
             title: Text(
-              'Chat Room, id: ${widget.roomid}',
+              'Room id: ${widget.roomid}',
               style: TextStyle(
                 fontFamily: 'primary',
                 color: Colors.white,
@@ -56,6 +57,29 @@ class _RoomScreenState extends State<RoomScreen> {
                 letterSpacing: 2.5,
               ),
             ),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  currentUserRooms.remove(widget.roomid);
+                  FirebaseAuth.instance.currentUser().then((user){
+                    Firestore.instance.collection('Users').document(user.uid).updateData({
+                      'rooms' : currentUserRooms,
+                    }).then((value) {
+                      Navigator.of(context).pop();
+                    });
+                  });
+                },
+                child: Text(
+                  'Leave',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'secondary',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
           ),
           body: Column(
             children: <Widget>[
@@ -82,7 +106,8 @@ class _RoomScreenState extends State<RoomScreen> {
                             return MessageBubble(
                               message: chatsnapshot.data.documents[index]
                                   ['text'],
-                              username: chatsnapshot.data.documents[index]['username'],
+                              username: chatsnapshot.data.documents[index]
+                                  ['username'],
                               key: ValueKey(chatsnapshot
                                   .data.documents[index].documentID),
                               isMe: chatsnapshot.data.documents[index]

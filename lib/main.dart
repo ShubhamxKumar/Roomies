@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:Roomies/Providers/userProfileProvider.dart';
 import 'package:Roomies/getDataFunctions.dart';
 import 'package:Roomies/screens/createRoomScreen.dart';
+import 'package:Roomies/screens/newRoomScreen.dart';
 import 'package:Roomies/screens/roomOverviewScreen.dart';
 import 'package:Roomies/screens/settingScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
