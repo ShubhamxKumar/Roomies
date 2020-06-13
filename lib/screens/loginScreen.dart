@@ -89,42 +89,40 @@ class _LoginScreenState extends State<LoginScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Center(
-                  child: Text(
-                    'Roomies',
-                    style: TextStyle(
-                      fontFamily: 'primary',
-                      fontWeight: FontWeight.w900,
-                      color: Colors.grey[100],
-                      fontSize: 50,
-                      letterSpacing: 9,
-                    ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: Text(
+                  'Roomies',
+                  style: TextStyle(
+                    fontFamily: 'primary',
+                    fontWeight: FontWeight.w900,
+                    color: Colors.grey[100],
+                    fontSize: 50,
+                    letterSpacing: 9,
                   ),
                 ),
-                Center(
-                  child: Text(
-                    'Create ChatRooms on GO!',
-                    style: TextStyle(
-                      fontFamily: 'secondary',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
+              ),
+              Center(
+                child: Text(
+                  'Create ChatRooms on GO!',
+                  style: TextStyle(
+                    fontFamily: 'secondary',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 15,
                   ),
                 ),
-                _loader
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : AuthForm(
-                        authFunction: _authFunction,
-                      ),
-              ],
-            ),
+              ),
+              _loader
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : AuthForm(
+                      authFunction: _authFunction,
+                    ),
+            ],
           ),
         ),
       ),

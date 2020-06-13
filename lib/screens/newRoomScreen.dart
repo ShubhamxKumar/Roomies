@@ -1,6 +1,8 @@
 import 'package:Roomies/widgets/searchedRoomTile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:Roomies/getDataFunctions.dart';
 
 class NewRoomScreen extends StatefulWidget {
   @override
@@ -54,6 +56,54 @@ class _NewRoomScreenState extends State<NewRoomScreen> {
                 letterSpacing: 2.5,
               ),
             ),
+            actions: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                  onPressed: () {
+                    Firestore.instance
+                        .collection('AppData')
+                        .document('Rooms')
+                        .get()
+                        .then((doc) {
+                      print(doc.data['number']);
+                      Firestore.instance
+                          .collection('Rooms')
+                          .document('Room${doc.data['number']}')
+                          .setData({
+                        'id': 'Room${doc.data['number']}',
+                      }).then((val) {
+                        Firestore.instance
+                            .collection('AppData')
+                            .document('Rooms')
+                            .updateData({
+                          'number': doc.data['number'] + 1,
+                        }).then((val) async {
+                          currentUserRooms.add('Room${doc.data['number']}');
+                          FirebaseAuth.instance.currentUser().then((user) {
+                            Firestore.instance
+                                .collection('Users')
+                                .document(user.uid)
+                                .updateData({
+                              'rooms': currentUserRooms,
+                            }).then((val){
+                              Navigator.of(context).pop();
+                            });
+                          });
+                        });
+                      });
+                    });
+                  },
+                ),
+              ),
+            ],
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,30 +182,28 @@ class _NewRoomScreenState extends State<NewRoomScreen> {
                       onPressed: searchedValue.isEmpty
                           ? null
                           : () {
-                            setState(() {
-                              _foundedItems = [];
-                            });
-                            var id = 'Room' + searchedValue.substring(4);
+                              setState(() {
+                                _foundedItems = [];
+                              });
+                              var id = 'Room' + searchedValue.substring(4);
                               Firestore.instance
                                   .collection('Rooms')
                                   .document(id)
                                   .get()
                                   .then((doc) {
-                                    if(doc.exists){
-                                      setState(() {
-                                        print(doc.documentID);
-                                        _foundedItems.add(doc.documentID);
-                                        
-                                      });
-                                      print(_foundedItems);
-                                    }
-                                    else{
-                                      setState(() {
-                                        print('No Rooms found');
-                                        _foundedItems = [];
-                                      });
-                                    }
+                                if (doc.exists) {
+                                  setState(() {
+                                    print(doc.documentID);
+                                    _foundedItems.add(doc.documentID);
                                   });
+                                  print(_foundedItems);
+                                } else {
+                                  setState(() {
+                                    print('No Rooms found');
+                                    _foundedItems = [];
+                                  });
+                                }
+                              });
                             },
                       child: Icon(
                         Icons.search,
@@ -183,10 +231,10 @@ class _NewRoomScreenState extends State<NewRoomScreen> {
                         softWrap: true,
                       )
                     : Column(
-                      children: _foundedItems.map((element) {
-                        return SearchedRoomTile(roomid: element);
-                      }).toList(),
-                    ),
+                        children: _foundedItems.map((element) {
+                          return SearchedRoomTile(roomid: element);
+                        }).toList(),
+                      ),
               ),
             ],
           ),

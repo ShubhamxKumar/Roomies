@@ -47,7 +47,7 @@ class _SearchedRoomTileState extends State<SearchedRoomTile> {
           ),
           FlatButton(
             onPressed: () {
-              if (currentUserRooms == null ||
+              if (currentUserRooms == null &&
                   !currentUserRooms.contains(widget.roomid)) {
                 currentUserRooms = [widget.roomid];
                 FirebaseAuth.instance.currentUser().then((user) {
@@ -59,7 +59,7 @@ class _SearchedRoomTileState extends State<SearchedRoomTile> {
                   });
                   print('Room joined');
                 });
-              } else if (currentUserRooms != null ||
+              } else if (currentUserRooms != null &&
                   !currentUserRooms.contains(widget.roomid)) {
                 currentUserRooms.add(widget.roomid);
                 FirebaseAuth.instance.currentUser().then((user) {
